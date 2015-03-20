@@ -1,0 +1,11 @@
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Administrator\Documents\StairsToHeaven\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Administrator\Documents\StairsToHeaven\obj\Debug\UnityVS.StairsToHeaven.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\StairsToHeaven\obj\Debug\Assembly-CSharp.dll
+C:\Users\Administrator\Documents\StairsToHeaven\obj\Debug\Assembly-CSharp.pdb

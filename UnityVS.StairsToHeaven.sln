@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.StairsToHeaven.CSharp", "UnityVS.StairsToHeaven.CSharp.csproj", "{7FFFE164-D197-403E-2B5D-910F108D0693}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.StairsToHeaven.CSharp.Editor", "UnityVS.StairsToHeaven.CSharp.Editor.csproj", "{ED1F3926-4AD8-6D9A-D9C6-ADE299662293}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FFFE164-D197-403E-2B5D-910F108D0693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFFE164-D197-403E-2B5D-910F108D0693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFFE164-D197-403E-2B5D-910F108D0693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFFE164-D197-403E-2B5D-910F108D0693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED1F3926-4AD8-6D9A-D9C6-ADE299662293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED1F3926-4AD8-6D9A-D9C6-ADE299662293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED1F3926-4AD8-6D9A-D9C6-ADE299662293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED1F3926-4AD8-6D9A-D9C6-ADE299662293}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

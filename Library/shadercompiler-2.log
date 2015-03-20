@@ -1,0 +1,95 @@
+Base path: C:/Program Files (x86)/Unity/Editor/Data
+Pipe name: \\.\pipe\UnityShaderCompiler-2-7792
+Cmd: getPlatforms
+Cmd: compileSnippet
+  api=9 type=0 insize=876 outsize=742 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=876 outsize=6 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=7024 outsize=7 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=4819 outsize=5599 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=4819 outsize=7 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=5949 outsize=5949 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=5949 outsize=6 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=3811 outsize=4901 kw=POINT ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=3811 outsize=5038 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=3811 outsize=4629 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=3811 outsize=7 kw=POINT ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=3811 outsize=7 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=3811 outsize=6 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=5273 outsize=4067 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=5273 outsize=5149 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=5273 outsize=6 kw=DIRECTIONAL LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=5273 outsize=7 kw=DIRECTIONAL LIGHTMAP_ON DIRLIGHTMAP_ON ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=2853 outsize=2895 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=2853 outsize=3441 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=2853 outsize=7 kw=POINT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2853 outsize=6 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=2853 outsize=6 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=1770 outsize=1687 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=1381 outsize=1492 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=1381 outsize=7 kw= ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=2154 outsize=2173 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=2154 outsize=7 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=1788 outsize=7 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=2219 outsize=7 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=5025 outsize=3477 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=5025 outsize=4603 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=5025 outsize=1855 kw=DIRECTIONAL SHADOWS_SCREEN SHADOWS_NATIVE LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=5025 outsize=7 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=5025 outsize=6 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=3064 outsize=2824 kw=POINT ok=1
+Cmd: compileSnippet
+  api=5 type=0 insize=3064 outsize=2965 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=3064 outsize=2554 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=3064 outsize=6 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=3064 outsize=7 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=5 type=1 insize=3064 outsize=6 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=1097 outsize=1082 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=0 insize=924 outsize=726 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=924 outsize=7 kw= ok=1
+Cmd: compileSnippet
+  api=9 type=1 insize=1260 outsize=7 kw= ok=1
+Unhandled exception: Readfile from pipe failed. GLE=파이프가 끝났습니다.
+
+
+Quitting shader compiler process
