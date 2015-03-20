@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     {
         idle,
         jumpLeft,
-        jumpRight
+        jumpRight,
     }
 
 
@@ -78,8 +78,25 @@ public class GameManager : MonoBehaviour
     public GameObject[] moveBtn;
 
     bool isFever;
+
+    int centerLR;
+
+    float jumpClickInter;
+    float jumpClick1;
+    float jumpClick2;
+
+    public GameObject feverLabel;
+    public float feverTime = 10;
+    float feverTimeOri;
+
+    public GameObject leftText;
+    public GameObject rightText;
+    public GameObject touchText;
+    bool touchFirst = false;
+
     void Awake()
     {
+        feverTimeOri = feverTime;
         int TempI = 0;
         GameObject[] PrefabTemp;
 
@@ -133,6 +150,10 @@ public class GameManager : MonoBehaviour
         isDaed = true;
         GetComponent<PopupController>().AddPopWin(ReStartWindow);
         //Activate();
+
+        leftText.SetActive(false);
+        rightText.SetActive(false);
+        touchText.SetActive(false);
     }
 
     void ObjPools(GameObject obj, string newName, int count, Transform parentT)
@@ -160,12 +181,19 @@ public class GameManager : MonoBehaviour
         StepMakePosX = 0;
         StepMakePosY = 0;
 
+        jumpClickInter = 0;
+        jumpClick1 =Time.time;
+        jumpClick2 = 0;
+
+        touchFirst = false;
         //최초상태 세팅//
         pStatus = status.idle;
         lifeGage.value = 1f;
         feverGage.value = 0f;
         stepView.text = "0";
         isFever = false;
+        feverTime = 1 / feverTimeOri;
+
         //카메라 최초 위치
         Camera.main.transform.localPosition = oriCamPos;
         
@@ -191,6 +219,11 @@ public class GameManager : MonoBehaviour
         player.transform.localPosition = new Vector3(chFirstPosX, 0, 0);
         player.name = "Player";
 
+        leftText.SetActive(true);
+        rightText.SetActive(true);
+        leftText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
+        rightText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
+        touchText.SetActive(false);
     }
 
     void Update()
@@ -230,30 +263,24 @@ public class GameManager : MonoBehaviour
             //Debug.Log("카메라 교정");
             camPosY = Mathf.Lerp(camPos.y, plPos.y + 1, 0.1f);
             //피버게이지 채움//
-            if (jumpCount > 0 && isFever == false)
+            if (jumpCount > 0 && isFever == false && feverGage.value >= 1)
             {
-                if (feverGage.value < 1)
-                {
-                    //피버게이지 채움//
-                    //Debug.Log("피버게이지 채움");
-                    feverGage.value += 0.0006f;
-                    //feverGage.value += 0.003f;
-                }
-                else
-                {
-                    isFever = true;
-                    tempJumpSpeed = jumpSpeed;
-                    jumpSpeed = 1;
-                    moveBtn[0].SetActive(false);
-                    moveBtn[1].SetActive(false);
-                    moveBtn[2].SetActive(true);
-                }
+                isFever = true;
+                tempJumpSpeed = jumpSpeed;
+                jumpSpeed = 1;
+                moveBtn[0].SetActive(false);
+                moveBtn[1].SetActive(false);
+                moveBtn[2].SetActive(true);
+
+                //피버 레이블 화면에 보여줌//
+                StartCoroutine(ShowFeverLabel());
+                touchText.SetActive(true);
             }
         }
         //피버게이지가 다 찾으니 피버가 발동하면서 피버게이지 줄임.
         if (isFever == true)
         {
-            feverGage.value -= Time.deltaTime * 0.1f;
+            feverGage.value -= Time.deltaTime * feverTime;
             if (feverGage.value <= 0)
             {
                 isFever = false;
@@ -312,31 +339,109 @@ public class GameManager : MonoBehaviour
 
             case status.jumpLeft:
                 frameCount++;
-                //Debug.Log("Frame Count = " + frameCount);
-                player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
-                //if (jumpSpeed * frameCount > .1f) Debug.Break();
                 player.transform.localRotation = Quaternion.Euler(0, 45, 0);
-                //player.transform.GetChild(0).animation.Play("jump");
-                IsJumpComplete();
+
+                //피버일때는 바로 다음 위치로 이동하게 한다.//
+                if (isFever == true)
+                {
+                    IsJumpFeverComplete();
+                    //player.transform.localPosition = newPos; 
+                    //pStatus = status.idle;
+                    //nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
+                    //nextStepT.localScale = Vector3.one;
+                }
+                else
+                {
+                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
+                    IsJumpComplete();
+                }
                 break;
 
             case status.jumpRight:
                 frameCount++;
-                //Debug.Log("Frame Count = " + frameCount);
-                player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
-                //if (jumpSpeed * frameCount > .1f) Debug.Break();
                 player.transform.localRotation = Quaternion.Euler(0, -45, 0);
-                //player.transform.GetChild(0).animation.Play("jump");
-                IsJumpComplete();
+
+                if (isFever == true)
+                {
+                    IsJumpFeverComplete();
+                    //player.transform.localPosition = newPos; 
+                    //pStatus = status.idle;
+                    //nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
+                    //nextStepT.localScale = Vector3.one;
+                }
+                else
+                {
+                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
+                    IsJumpComplete();
+                }
                 break;
         }
         #endregion //플레이어 상태에 따른 변화-실질적으로 점프 체크를 위해 필요//
 
+    }
 
+    IEnumerator ShowFeverLabel()
+    {
+        StartCoroutine(OffFeverLabel());
+        feverLabel.SetActive(true);
+        feverLabel.transform.localScale = Vector3.zero;
+        float val = 0;
+        while (true)
+        {
+            feverLabel.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(1, 1, 1), val);
+            if (val >= 1) break;
+            val += Time.deltaTime * 2;
+            yield return null;
+        }
+        feverLabel.transform.localScale = new Vector3(1,1,1);
+    }
+
+    IEnumerator OffFeverLabel()
+    {
+        yield return new WaitForSeconds(feverTimeOri * 0.8f);
+        touchText.SetActive(false);
+        StartCoroutine(BlinkFeverLabel());
+        yield return new WaitForSeconds(feverTimeOri * 0.15f);
+        float val = 0;
+        while (true)
+        {
+            feverLabel.transform.localScale = Vector3.Lerp(new Vector3(1, 0.8f, 1), Vector3.zero, val);
+            if (val >= 1) break;
+            val += Time.deltaTime * 2;
+            yield return null;
+        }
+        feverLabel.SetActive(false);
+    }
+
+    IEnumerator BlinkFeverLabel()
+    {
+        float val = 0;
+        float valLimitTime = feverTimeOri * 0.19f;
+        while (true)
+        {
+            feverLabel.GetComponent<UILabel>().enabled = !feverLabel.GetComponent<UILabel>().enabled;
+            Debug.Log("Blink :: " + feverLabel.GetComponent<UILabel>().enabled);
+            if (val >= valLimitTime)
+            {
+                feverLabel.GetComponent<UILabel>().enabled = true; break;
+            }
+            val += Time.deltaTime;
+            yield return null;
+            yield return null;
+        }
+    }
+
+    void IsJumpFeverComplete()
+    {
+        player.transform.localPosition = newPos;
+        pStatus = status.idle;
+        nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
+        nextStepT.localScale = Vector3.one;
     }
 
     void IsJumpComplete()
     {
+       
         float nowPosX = player.transform.localPosition.x;
         float newPosX = newPos.x;
         float inter2Pos = 0;
@@ -355,7 +460,6 @@ public class GameManager : MonoBehaviour
         //계단을 밟았는지 여부 검사//
         if (inter2Pos < collapseInter)
         {
-            Debug.Log("jumpCount :: " + jumpCount +" :: 밟음 여부 검사");
             player.transform.localPosition = newPos;
             pStatus = status.idle;
             frameCount = 0;
@@ -469,10 +573,34 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    IEnumerator HideLeftRightText()
+    {
+        yield return new WaitForSeconds(1f);
+        float val = 1;
+        while (val > 0)
+        {
+            leftText.GetComponent<UILabel>().color = new Color(1, 1, 1, val);
+            rightText.GetComponent<UILabel>().color = new Color(1, 1, 1, val);
+            val -= Time.deltaTime;
+            yield return null;
+        }
+
+        leftText.SetActive(false);
+        rightText.SetActive(false);
+    }
+    
     public void JumpLeft()
     {
         if (pStatus == status.jumpLeft || pStatus == status.jumpRight || isPlayerDrop == true || player == null) return;
 
+        if (touchFirst == false)
+        {
+            StartCoroutine(HideLeftRightText());
+            touchFirst = true;
+        }
+
+        FeverCheck();
         pStatus = status.jumpLeft;
         JumpDefault(-1);
     }
@@ -481,11 +609,43 @@ public class GameManager : MonoBehaviour
     {
         if (pStatus == status.jumpLeft || pStatus == status.jumpRight || isPlayerDrop == true || player == null) return;
 
+        if (touchFirst == false)
+        {
+            StartCoroutine(HideLeftRightText());
+            touchFirst = true;
+        }
+
+        FeverCheck();
         pStatus = status.jumpRight;
         JumpDefault(1);
     }
 
-    int centerLR;
+    bool isFeverContinue;
+    //피버여부 체크//
+    public void FeverCheck()
+    {
+        jumpClick2 = Time.time;
+        jumpClickInter = jumpClick2 - jumpClick1;
+        //Debug.Log("jumpClickInter :: " + jumpClickInter); ;
+        if (jumpClickInter <= 0.25f)
+        {
+            feverGage.value += 0.01f;
+            if (isFeverContinue == true)
+                feverGage.value += 0.005f;
+            isFeverContinue = true;
+        }
+        else if (jumpClickInter <= 0.4f)
+        {
+            feverGage.value += 0.005f;
+            if (isFeverContinue == true)
+                feverGage.value += 0.0025f;
+            isFeverContinue = true;
+        }
+        else isFeverContinue = false;
+
+        jumpClick1 = jumpClick2;
+    }
+
     public void JumpCenter()
     {
         if (pStatus == status.jumpLeft || pStatus == status.jumpRight || isPlayerDrop == true || player == null) return;
@@ -502,8 +662,8 @@ public class GameManager : MonoBehaviour
 
         newPos = nowPos + new Vector3(centerLR * jumpX, jumpY, 0);
 
-        Debug.Log("pStatus :::: "+pStatus.ToString());
-        Debug.Log("newPos :::: " + newPos);
+        //Debug.Log("pStatus :::: "+pStatus.ToString());
+        //Debug.Log("newPos :::: " + newPos);
 
     }
 
