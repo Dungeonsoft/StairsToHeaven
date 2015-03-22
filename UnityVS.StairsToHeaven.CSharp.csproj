@@ -193,6 +193,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\PopupController.cs" />
     <Compile Include="Assets\ScreenSizeMatchingScript.cs" />
+    <Compile Include="Assets\StepPrefer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildingShader.shader" />

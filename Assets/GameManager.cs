@@ -6,14 +6,14 @@ public class GameManager : MonoBehaviour
 
 
     //public static bool isOnStep;
-
-
     public enum status
     {
         idle,
         jumpLeft,
         jumpRight,
     }
+
+    int getCoinCount;
 
 
     public GameObject ReStartWindow;
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     GameObject[] playerPrefab;
     GameObject stepPrefab;
     GameObject[] buildingPrefab;
+    GameObject coinPrefab;
 
     int playerNum;
     bool isPlayerDrop;
@@ -94,6 +95,19 @@ public class GameManager : MonoBehaviour
     public GameObject touchText;
     bool touchFirst = false;
 
+    public AudioSource bgSoundManager;
+    public AudioClip normalSound;
+    public AudioClip feverSound;
+
+    public Transform instanceCoinParent;
+    public Transform coins;
+    int coinMakerRandom;
+    public int coinMakerPer;
+    public UILabel goldCountLabel;
+
+    public AudioClip getCoin;
+    public AudioClip chSound;
+
     void Awake()
     {
         Application.targetFrameRate = 60;
@@ -109,6 +123,11 @@ public class GameManager : MonoBehaviour
         stepPrefab = Resources.Load("StepBox00") as GameObject;
         //계단 인스턴스 풀 생성//
         ObjPools(stepPrefab, "Step", 30, instanceStepsParent);
+
+        //코인 프리팹 로드//
+        coinPrefab = Resources.Load("Coin00") as GameObject;
+        //코인 인스턴스 풀 생성//
+        ObjPools(coinPrefab, "Step", 10, instanceCoinParent);
 
         //빌딩 프리팹 로드//
         buildingPrefab = new GameObject[10];
@@ -155,6 +174,8 @@ public class GameManager : MonoBehaviour
         leftText.SetActive(false);
         rightText.SetActive(false);
         touchText.SetActive(false);
+
+        goldCountLabel.text = "0";
     }
 
     void ObjPools(GameObject obj, string newName, int count, Transform parentT)
@@ -197,7 +218,8 @@ public class GameManager : MonoBehaviour
 
         //카메라 최초 위치
         Camera.main.transform.localPosition = oriCamPos;
-        
+
+        goldCountLabel.text = "0";
         #endregion//기본값 세팅//
 
         jumpSpeed = oriJumpSpeed / 100;
@@ -225,6 +247,9 @@ public class GameManager : MonoBehaviour
         leftText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
         rightText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
         touchText.SetActive(false);
+       
+        bgSoundManager.clip = normalSound;
+        bgSoundManager.Play();
     }
 
     void Update()
@@ -261,9 +286,7 @@ public class GameManager : MonoBehaviour
         camPosY = camPos.y;
         if (camPosY - 1 <= plPos.y)
         {
-            //Debug.Log("카메라 교정");
             camPosY = Mathf.Lerp(camPos.y, plPos.y + 1, 0.1f);
-            //피버게이지 채움//
             if (jumpCount > 0 && isFever == false && feverGage.value >= 1)
             {
                 isFever = true;
@@ -276,6 +299,9 @@ public class GameManager : MonoBehaviour
                 //피버 레이블 화면에 보여줌//
                 StartCoroutine(ShowFeverLabel());
                 touchText.SetActive(true);
+                Debug.Log("피버참");
+                bgSoundManager.clip = feverSound;
+                bgSoundManager.Play();
             }
         }
         //피버게이지가 다 찾으니 피버가 발동하면서 피버게이지 줄임.
@@ -292,6 +318,8 @@ public class GameManager : MonoBehaviour
                 moveBtn[2].SetActive(false);
 
                 jumpSpeed = tempJumpSpeed;
+                bgSoundManager.clip = normalSound;
+                bgSoundManager.Play();
             }
         }
         else
@@ -421,7 +449,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             feverLabel.GetComponent<UILabel>().enabled = !feverLabel.GetComponent<UILabel>().enabled;
-            Debug.Log("Blink :: " + feverLabel.GetComponent<UILabel>().enabled);
+            //Debug.Log("Blink :: " + feverLabel.GetComponent<UILabel>().enabled);
             if (val >= valLimitTime)
             {
                 feverLabel.GetComponent<UILabel>().enabled = true; break;
@@ -438,6 +466,7 @@ public class GameManager : MonoBehaviour
         pStatus = status.idle;
         nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
         nextStepT.localScale = Vector3.one;
+        CoinCheck();
     }
 
     void IsJumpComplete()
@@ -466,13 +495,64 @@ public class GameManager : MonoBehaviour
             frameCount = 0;
             nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
             nextStepT.localScale = Vector3.one;
+            
             if (newPos.x != nextStepT.localPosition.x)
             {
                 isPlayerDrop = true;
+                return;
             }
+           
+            //코인 있는지 여부 검사//
+            CoinCheck();
+            FeverCheck();
         }
     }
 
+    //코인 있는지 여부 검사//
+    void CoinCheck()
+    {
+        if (nextStepT.GetComponent<StepPrefer>().isCoin == true)
+        {
+            Debug.Log("코인검사");
+            getCoinCount += nextStepT.GetComponent<StepPrefer>().coinValue;
+            goldCountLabel.text = getCoinCount.ToString();
+            Transform coin = nextStepT.GetComponent<StepPrefer>().coinT;
+            Debug.Log("코인이름 :: " + coin.name);
+            coin.parent = instanceCoinParent;
+            coin.gameObject.SetActive(false);
+
+            audio.PlayOneShot(getCoin);
+            StartCoroutine(BubbleAction(goldCountLabel.transform));
+        }
+    }
+
+    void CoinMaker(Transform step)
+    {
+        coinMakerRandom = Random.Range(0,100);
+
+        if (coinMakerRandom < coinMakerPer)
+        {
+            for (int i = 0; i < instanceCoinParent.childCount; i++)
+            {
+                if (instanceCoinParent.GetChild(i).gameObject.activeSelf == false)
+                {
+                    Transform coin = instanceCoinParent.GetChild(i);
+                    coin.gameObject.SetActive(true);
+                    coin.parent = coins;
+                    coin.localPosition = step.localPosition;
+                    step.GetComponent<StepPrefer>().isCoin = true;
+                    step.GetComponent<StepPrefer>().coinValue = 1;
+                    step.GetComponent<StepPrefer>().coinT = coin;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            step.GetComponent<StepPrefer>().isCoin = false;
+            step.GetComponent<StepPrefer>().coinValue = 0;
+        }
+    }
 
     void StepMaker()
     {
@@ -480,12 +560,9 @@ public class GameManager : MonoBehaviour
 
         StepMakePosX = Mathf.Floor(StepMakePosX);
         chFirstPosX = StepMakePosX;
-        //Debug.Log("posX : " + StepMakePosX);
 
         for (int i = 0; i < 15; i++)
         {
-            //Debug.Log("계단생성 함?");
-            //GO = Instantiate(prefabO) as GameObject;
             for (int j = 0; j < stepChCount; j++)
             {
                 GO = instanceStepsParent.GetChild(j);
@@ -499,6 +576,9 @@ public class GameManager : MonoBehaviour
             GO.localPosition = new Vector3(StepMakePosX, StepMakePosY, 0.5f);
             GO.name = "Step" + i.ToString("D5");
 
+            //코인 여부 결정하여 생성//
+            if (i > 0) CoinMaker(GO);
+            //다음 계단 위치 미리 지정//
             StepNextPos();
         }
         stairs.GetChild(0).localScale = Vector3.zero;
@@ -515,6 +595,9 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(ScaleUpStep(GO.transform));
 
+        //코인 여부 결정하여 생성//
+        CoinMaker(GO);
+        //다음 계단 위치 미리 지정//
         StepNextPos();
     }
 
@@ -601,7 +684,6 @@ public class GameManager : MonoBehaviour
             touchFirst = true;
         }
 
-        FeverCheck();
         pStatus = status.jumpLeft;
         JumpDefault(-1);
     }
@@ -616,7 +698,6 @@ public class GameManager : MonoBehaviour
             touchFirst = true;
         }
 
-        FeverCheck();
         pStatus = status.jumpRight;
         JumpDefault(1);
     }
@@ -628,18 +709,26 @@ public class GameManager : MonoBehaviour
         jumpClick2 = Time.time;
         jumpClickInter = jumpClick2 - jumpClick1;
         //Debug.Log("jumpClickInter :: " + jumpClickInter); ;
-        if (jumpClickInter <= 0.25f)
+
+        if (jumpClickInter <= 0.15f)
         {
             feverGage.value += 0.01f;
             if (isFeverContinue == true)
                 feverGage.value += 0.005f;
             isFeverContinue = true;
         }
+        else if (jumpClickInter <= 0.25f)
+        {
+            feverGage.value += 0.004f;
+            if (isFeverContinue == true)
+                feverGage.value += 0.002f;
+            isFeverContinue = true;
+        }
         else if (jumpClickInter <= 0.4f)
         {
-            feverGage.value += 0.005f;
+            feverGage.value += 0.002f;
             if (isFeverContinue == true)
-                feverGage.value += 0.0025f;
+                feverGage.value += 0.001f;
             isFeverContinue = true;
         }
         else isFeverContinue = false;
@@ -722,6 +811,14 @@ public class GameManager : MonoBehaviour
             cObj.gameObject.SetActive(false);
         }
 
+        child = coins.childCount;
+        for (int i = 0; i < child; i++)
+        {
+            cObj = coins.GetChild(0);
+            cObj.parent = instanceCoinParent;
+            cObj.gameObject.SetActive(false);
+        }
+
         child = buildings.childCount;
         for (int i = 0; i < child; i++)
         {
@@ -752,7 +849,7 @@ public class GameManager : MonoBehaviour
                 obj.localScale = Vector3.Lerp(scaleV[i], scaleV[i + 1], val);
                 //Debug.Log("Win.localScale::: :" + i + ": ::: " + Win.localScale);
 
-                val += Time.deltaTime * (10 + i);
+                val += Time.deltaTime * (15 + i);
                 yield return null;
             }
         }
