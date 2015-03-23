@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FeverFxPlaneScript.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\JMO Assets\Toony Colors\Demo\AutoRotateObject.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />

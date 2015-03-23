@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour
     public AudioClip getCoin;
     public AudioClip chSound;
 
+    public Transform feverFxPlane;
+
     void Awake()
     {
         Application.targetFrameRate = 60;
@@ -219,7 +221,7 @@ public class GameManager : MonoBehaviour
         //카메라 최초 위치
         Camera.main.transform.localPosition = oriCamPos;
 
-        goldCountLabel.text = "0";
+        //goldCountLabel.text = "0";
         #endregion//기본값 세팅//
 
         jumpSpeed = oriJumpSpeed / 100;
@@ -250,6 +252,13 @@ public class GameManager : MonoBehaviour
        
         bgSoundManager.clip = normalSound;
         bgSoundManager.Play();
+    }
+
+    IEnumerator StopFeverFx()
+    {
+        yield return new WaitForSeconds(10f);
+        feverFxPlane.GetComponent<FeverFxPlaneScript>().Activate();
+        feverFxPlane.GetComponent<FeverFxPlaneScript>().enabled = false;
     }
 
     void Update()
@@ -302,6 +311,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log("피버참");
                 bgSoundManager.clip = feverSound;
                 bgSoundManager.Play();
+
+                feverFxPlane.GetComponent<FeverFxPlaneScript>().enabled = true;
+                StartCoroutine(StopFeverFx());
             }
         }
         //피버게이지가 다 찾으니 피버가 발동하면서 피버게이지 줄임.
@@ -513,11 +525,11 @@ public class GameManager : MonoBehaviour
     {
         if (nextStepT.GetComponent<StepPrefer>().isCoin == true)
         {
-            Debug.Log("코인검사");
+            //Debug.Log("코인검사");
             getCoinCount += nextStepT.GetComponent<StepPrefer>().coinValue;
             goldCountLabel.text = getCoinCount.ToString();
             Transform coin = nextStepT.GetComponent<StepPrefer>().coinT;
-            Debug.Log("코인이름 :: " + coin.name);
+            //Debug.Log("코인이름 :: " + coin.name);
             coin.parent = instanceCoinParent;
             coin.gameObject.SetActive(false);
 
@@ -712,16 +724,16 @@ public class GameManager : MonoBehaviour
 
         if (jumpClickInter <= 0.15f)
         {
-            feverGage.value += 0.01f;
+            feverGage.value += 0.012f;
             if (isFeverContinue == true)
-                feverGage.value += 0.005f;
+                feverGage.value += 0.006f;
             isFeverContinue = true;
         }
         else if (jumpClickInter <= 0.25f)
         {
-            feverGage.value += 0.004f;
+            feverGage.value += 0.005f;
             if (isFeverContinue == true)
-                feverGage.value += 0.002f;
+                feverGage.value += 0.0025f;
             isFeverContinue = true;
         }
         else if (jumpClickInter <= 0.4f)
