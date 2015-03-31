@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour
     public bool baseTimeLife;
     public float jumpSpeed = 20;
     float tempJumpSpeed;
-    status pStatus;
+    public static status pStatus;
   
     Vector3[] scaleV;
     GameObject[] playerPrefab;
-    GameObject stepPrefab;
+    GameObject[] stepPrefab;
     GameObject[] buildingPrefab;
     GameObject coinPrefab;
 
@@ -36,13 +36,14 @@ public class GameManager : MonoBehaviour
     bool isPlayerDrop;
     float chFirstPosX;
 
+    public Transform camPosT;
     Vector3 camPos;
     Vector3 plPos;
     Vector3 nowPos;
     Vector3 newPos;
     Vector3 oriCamPos;
 
-    int jumpCount;
+    public static int jumpCount;
     int addVal;
     int frameCount;
 
@@ -110,6 +111,10 @@ public class GameManager : MonoBehaviour
 
     public Transform feverFxPlane;
 
+    public float camPlayerYposInterval = 7.5f;
+    public float camPlayerYposMinInterval = 7f;
+    public float playerLotY = 45;
+
     void Awake()
     {
         Application.targetFrameRate = 60;
@@ -117,19 +122,44 @@ public class GameManager : MonoBehaviour
         int TempI = 0;
         GameObject[] PrefabTemp;
 
-        oriCamPos = Camera.main.transform.localPosition;
+        //oriCamPos = Camera.main.transform.localPosition;
         ReStartWindow.SetActive(false);
         oriJumpSpeed = jumpSpeed;
 
         //계단 프리팹 로드//
-        stepPrefab = Resources.Load("StepBox00") as GameObject;
+        //stepPrefab = Resources.Load("StepBox00") as GameObject;
+        stepPrefab = new GameObject[50];
+        TempI = 0;
+        for (int i = 0; i < 50; i++)
+        {
+            if (Resources.Load("StepBox" + i.ToString("D2")) == null) { Debug.Log("I값 : " + i); TempI = i; break; }
+            stepPrefab[i] = Resources.Load("StepBox" + i.ToString("D2")) as GameObject;
+        }
+        PrefabTemp = stepPrefab;
+        stepPrefab = new GameObject[TempI];
+        for (int j = 0; j < TempI; j++)
+        {
+            stepPrefab[j] = PrefabTemp[j];
+        }
+
+        Debug.Log("stepPrefab.Length :: "+stepPrefab.Length);
+
+        int stepNum =0;
         //계단 인스턴스 풀 생성//
-        ObjPools(stepPrefab, "Step", 30, instanceStepsParent);
+        for (int i = 0; i < 30; i++)
+        {
+            stepNum = Random.Range(0,stepPrefab.Length);
+            Debug.Log("stepNum ::: " + stepNum); 
+            ObjPools(stepPrefab[stepNum], "Step", 1, instanceStepsParent);
+        }
+
+
+
 
         //코인 프리팹 로드//
         coinPrefab = Resources.Load("Coin00") as GameObject;
         //코인 인스턴스 풀 생성//
-        ObjPools(coinPrefab, "Step", 10, instanceCoinParent);
+        ObjPools(coinPrefab, "Coin", 10, instanceCoinParent);
 
         //빌딩 프리팹 로드//
         buildingPrefab = new GameObject[10];
@@ -219,7 +249,8 @@ public class GameManager : MonoBehaviour
         feverTime = 1 / feverTimeOri;
 
         //카메라 최초 위치
-        Camera.main.transform.localPosition = oriCamPos;
+        camPosT.localPosition = Vector3.zero;
+        //Camera.main.transform.localPosition = oriCamPos;
 
         //goldCountLabel.text = "0";
         #endregion//기본값 세팅//
@@ -246,8 +277,17 @@ public class GameManager : MonoBehaviour
 
         leftText.SetActive(true);
         rightText.SetActive(true);
-        leftText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
-        rightText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
+
+        for (int i = 0; i < leftText.transform.childCount; i++)
+        {
+            leftText.transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        for (int i = 0; i < rightText.transform.childCount; i++)
+        {
+            rightText.transform.GetChild(i).localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        //leftText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
+        //rightText.GetComponent<UILabel>().color = new Color(1, 1, 1, 1);
         touchText.SetActive(false);
        
         bgSoundManager.clip = normalSound;
@@ -265,12 +305,12 @@ public class GameManager : MonoBehaviour
     {
         if (isDaed == true) return;
 
-        camPos = Camera.main.transform.localPosition;
+        camPos = camPosT.localPosition;
         plPos = player.transform.localPosition;
 
         camPosY = camPos.y;
         playerPosY = plPos.y;
-        if (camPosY > (playerPosY + 3.8f)) isPlayerDrop = true;
+        if (camPosY > (playerPosY + camPlayerYposInterval)) isPlayerDrop = true;
 
         #region //계단을 밟지 못했을 경우// 라이프 게이지가 다 닳아 없어졌을때//화면 밖으로 나갔을 때//
         if (isPlayerDrop == true)
@@ -293,9 +333,9 @@ public class GameManager : MonoBehaviour
         #region //카메라 위치 잡아줌//
         //캠 Y위치 교정//
         camPosY = camPos.y;
-        if (camPosY - 1 <= plPos.y)
+        if (camPosY - camPlayerYposMinInterval <= plPos.y)
         {
-            camPosY = Mathf.Lerp(camPos.y, plPos.y + 1, 0.1f);
+            camPosY = Mathf.Lerp(camPos.y, plPos.y + camPlayerYposMinInterval, 0.1f);
             if (jumpCount > 0 && isFever == false && feverGage.value >= 1)
             {
                 isFever = true;
@@ -340,10 +380,12 @@ public class GameManager : MonoBehaviour
             switch (baseTimeLife)
             {
                 case true:
+                    if (jumpCount == 0) break;
                     //시간기준으로 생명력 단축//
                     if (spendTime < 200) spendTime += Time.deltaTime * 2;
                     //Debug.Log("Spend Time :: " + spendTime);
-                    lifeGage.value -= Time.deltaTime * (0.3f + spendTime * 0.001f);
+                    //lifeGage.value -= Time.deltaTime * (0.3f + spendTime * 0.001f);
+                    lifeGage.value -= Time.deltaTime * (0.15f+spendTime * 0.00175f);
                     break;
                 //시간기준으로 생명력 단축//
 
@@ -352,7 +394,9 @@ public class GameManager : MonoBehaviour
                     if (jumpCount > 0)
                     {
                         if (jumpCount < 200) addVal = jumpCount; else addVal = 200;
-                        lifeGage.value -= Time.deltaTime * (0.3f + addVal * 0.001f);
+                        
+                        //가장 간격이 짧을때가 2초에 모든 게이지바가 다 줄어듬//
+                        lifeGage.value -= Time.deltaTime * (0.3f + addVal * 0.001f); 
                     }
                     break;
                 //오른 계단 기준으로 생명력 단축//
@@ -365,10 +409,10 @@ public class GameManager : MonoBehaviour
 
 
         //캠이 서서히 위로 올라가서 캐릭터가 화면 밑으로 내려가도록 Y값을 보정//
-        camPosY += 0.01f;
+        if (jumpCount > 0) camPosY += 0.01f;
 
         camPosX = Mathf.Lerp(camPos.x, plPos.x, 0.2f);
-        Camera.main.transform.localPosition = new Vector3(camPosX, camPosY, camPos.z);
+        camPosT.localPosition = new Vector3(camPosX, camPosY, camPos.z);
         #endregion //카메라 위치 잡아줌//
 
         #region //플레이어 상태에 따른 변화-실질적으로 점프 체크를 위해 필요//
@@ -380,7 +424,7 @@ public class GameManager : MonoBehaviour
 
             case status.jumpLeft:
                 frameCount++;
-                player.transform.localRotation = Quaternion.Euler(0, 45, 0);
+                player.transform.localRotation = Quaternion.Euler(0, playerLotY, 0);
 
                 //피버일때는 바로 다음 위치로 이동하게 한다.//
                 if (isFever == true)
@@ -393,6 +437,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("점프 중 :: " + jumpSpeed * frameCount);
                     player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
                     IsJumpComplete();
                 }
@@ -400,7 +445,7 @@ public class GameManager : MonoBehaviour
 
             case status.jumpRight:
                 frameCount++;
-                player.transform.localRotation = Quaternion.Euler(0, -45, 0);
+                player.transform.localRotation = Quaternion.Euler(0, -playerLotY, 0);
 
                 if (isFever == true)
                 {
@@ -412,6 +457,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    //Debug.Log("점프 중 :: " + jumpSpeed * frameCount);
                     player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
                     IsJumpComplete();
                 }
@@ -580,7 +626,7 @@ public class GameManager : MonoBehaviour
                 GO = instanceStepsParent.GetChild(j);
                 if (GO.gameObject.activeSelf == false)
                     GO.gameObject.SetActive(true);
-                GO.localScale = new Vector3(1, 1, 0.1f);
+                GO.localScale = new Vector3(1, 1, 0.01f);
                 break;
             }
 
@@ -666,7 +712,7 @@ public class GameManager : MonoBehaviour
         player.transform.GetChild(0).animation.Play("jump");
         nowPos = player.transform.localPosition;
         newPos = nowPos + new Vector3(leftRight*jumpX, jumpY, 0);
-
+        //Debug.Log("점프 애니메이션 가동");
     }
 
 
@@ -690,11 +736,11 @@ public class GameManager : MonoBehaviour
     {
         if (pStatus == status.jumpLeft || pStatus == status.jumpRight || isPlayerDrop == true || player == null) return;
 
-        if (touchFirst == false)
-        {
-            StartCoroutine(HideLeftRightText());
-            touchFirst = true;
-        }
+        //if (touchFirst == false)
+        //{
+        //    StartCoroutine(HideLeftRightText());
+        //    touchFirst = true;
+        //}
 
         pStatus = status.jumpLeft;
         JumpDefault(-1);
@@ -704,11 +750,11 @@ public class GameManager : MonoBehaviour
     {
         if (pStatus == status.jumpLeft || pStatus == status.jumpRight || isPlayerDrop == true || player == null) return;
 
-        if (touchFirst == false)
-        {
-            StartCoroutine(HideLeftRightText());
-            touchFirst = true;
-        }
+        //if (touchFirst == false)
+        //{
+        //    StartCoroutine(HideLeftRightText());
+        //    touchFirst = true;
+        //}
 
         pStatus = status.jumpRight;
         JumpDefault(1);
@@ -795,11 +841,11 @@ public class GameManager : MonoBehaviour
         float val = 0;
         while (val < 1)
         {
-            step.localScale = new Vector3(val, val, val * 0.1f);
+            step.localScale = new Vector3(val, val, val * 0.01f);
             yield return null;
             val += Time.deltaTime * 3;
         }
-        step.localScale = new Vector3(1, 1, 0.1f);
+        step.localScale = new Vector3(1, 1, 0.01f);
     }
 
     IEnumerator PlayerDead()
@@ -868,5 +914,6 @@ public class GameManager : MonoBehaviour
 
         obj.localScale = new Vector3(1, 1, 1);
     }
+
 
 }

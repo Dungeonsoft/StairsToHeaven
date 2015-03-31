@@ -52,6 +52,15 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>Assets\Vexe\DLLs\Fasterflect\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="RuntimeExtensions">
+      <HintPath>Assets\Vexe\DLLs\Runtime\RuntimeExtensions\RuntimeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="RuntimeHelpers">
+      <HintPath>Assets\Vexe\DLLs\Runtime\RuntimeHelpers\RuntimeHelpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FeverFxPlaneScript.cs" />
@@ -195,6 +204,79 @@
     <Compile Include="Assets\PopupController.cs" />
     <Compile Include="Assets\ScreenSizeMatchingScript.cs" />
     <Compile Include="Assets\StepPrefer.cs" />
+    <Compile Include="Assets\TextObjRotate.cs" />
+    <Compile Include="Assets\TouchScript.cs" />
+    <Compile Include="Assets\UiButtonOnClick.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\BetterUndo.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\BasicOperation.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\IOperation.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\AddToList.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\ClearList.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\ClearRange.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\InsertToList.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\ListOperation.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\RemoveFromList.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Operations\List Ops\SetVariable.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Tests\DevbusTestTarget.cs" />
+    <Compile Include="Assets\Vexe\ShowEmAll\Attributes\EnumMaskAttribute.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Actions\SysObjAction.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Actions\UnityAction.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Bases\BaseDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Bases\BaseUnityDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Bases\KickassDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Bases\SysObjDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Bases\UnityDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Funcs\SysObjFunc.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Delegates\Funcs\UnityFunc.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Entries\ArgEntry.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Entries\FoldableEntry.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Entries\GOEntry.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Entries\MethodEntry.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Entries\TargetEntry.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Enums\EditorViewStyle.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Enums\SimpleBindingFlags.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Generic Event System\EventManager.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Generic Event System\uFAGameEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\IBasicDelegateOps.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\IExtraDelegateOps.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\IInvokable.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\IRebuildableDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\ITypedDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Interfaces\IViewableDelegate.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Others\ColorTheme.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Others\DelegateOpsHelper.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Others\Settings.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Others\SourceSet.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Others\Tuple.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Property Attributes\ShowDelegateAttribute.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\ComponentModifiers\ComponentAdder.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\ComponentModifiers\ComponentModifier.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\ComponentModifiers\ComponentRemover.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\ComponentModifiers\ComponentStateChanger.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Delegates.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnMouseEvents\OnMouseDownEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnMouseEvents\OnMouseEnterEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnMouseEvents\OnMouseExitEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnMouseEvents\OnMouseOverEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnMouseEvents\OnMouseUpEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnTriggerEvents\OnTriggerEnterEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnTriggerEvents\OnTriggerExitEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\OnTriggerEvents\OnTriggerStayEvent.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Sample Extensions\LightExtensions.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Sample Extensions\MonoBehaviourExtensions.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Sample Extensions\RigidbodyExtensions.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Sample Extensions\TransformExtensions.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\EventManagerTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\GUIWrapper\DrawMeInACustomWayPlease.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\GUIWrapper\GUIWrapperTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\HowToEasilySolveCircularDependency.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\InvocationPerformanceTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\KickassDelegateTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\SysObjActionTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\Target1.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\Target2.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\UnityActionTest.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Scripts\Tests\UnityFuncTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildingShader.shader" />
@@ -254,6 +336,11 @@
     <None Include="Assets\Shader\Unitychan_chara_hair.shader" />
     <None Include="Assets\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\StepShader.shader" />
+    <None Include="Assets\Vexe\DLLs\Editor\EditorExtensions\EditorExtensions.XML" />
+    <None Include="Assets\Vexe\DLLs\Editor\EditorHelpers\EditorHelpers.XML" />
+    <None Include="Assets\Vexe\DLLs\Fasterflect\Fasterflect.XML" />
+    <None Include="Assets\Vexe\DLLs\Runtime\RuntimeExtensions\RuntimeExtensions.XML" />
+    <None Include="Assets\Vexe\DLLs\Runtime\RuntimeHelpers\RuntimeHelpers.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>

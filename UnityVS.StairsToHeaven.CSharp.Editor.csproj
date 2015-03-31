@@ -70,6 +70,21 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
+    <Reference Include="EditorExtensions">
+      <HintPath>Assets\Vexe\DLLs\Editor\EditorExtensions\EditorExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="EditorHelpers">
+      <HintPath>Assets\Vexe\DLLs\Editor\EditorHelpers\EditorHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>Assets\Vexe\DLLs\Fasterflect\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="RuntimeExtensions">
+      <HintPath>Assets\Vexe\DLLs\Runtime\RuntimeExtensions\RuntimeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="RuntimeHelpers">
+      <HintPath>Assets\Vexe\DLLs\Runtime\RuntimeHelpers\RuntimeHelpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.StairsToHeaven.CSharp.csproj">
@@ -161,6 +176,100 @@
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetContainerEditor.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWidgetInspector.cs" />
     <Compile Include="Assets\NGUI\Scripts\Editor\UIWrapContentEditor.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Editor\BetterUndoEditorExtensions.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Editor\BetterUndoMenuItems.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Editor\SelectionOperation.cs" />
+    <Compile Include="Assets\Vexe\DEVBUS\Tests\Editor\DevbusTestEditor.cs" />
+    <Compile Include="Assets\Vexe\Editor\BetterPrefs.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\BetterEditor.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\BetterPropertyDrawer.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\BaseWrapper.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\BoundsFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Boxes.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Buttons.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\ColorFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\CustomFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\FieldOfType.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\FloatFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Foldouts.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\IntFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Labels.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\MaskFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\ObjectFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Others.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Popups.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\PropertyFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\RectFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Sliders.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Spaces.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\TextFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\Toggles.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\BaseWrapper\Controls\VectorFields.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GLWrapper\GLWrapper.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GLWrapper\Other\GLOption.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\CommandBlocks\CommandBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\CommandBlocks\GUIChangedBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\CommandBlocks\GUIColorBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\CommandBlocks\GUIEnabledBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\CommandBlocks\GUILabelWidthBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\GUIControlBlocks\GUIControlBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\GUIControlBlocks\HorizontalGUIControlBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Blocks\GUIControlBlocks\VerticalGUIControlBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIBoundsField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIBox.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIButton.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIColorField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIControl.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIEmptyControl.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIFlexibleSpace.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIFloatField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIFoldout.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIHelpBox.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIIntField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUILabel.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIMaskField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIMiniButton.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIObjectField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIPopup.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIPrimitiveField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIPropertyField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIRectField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUISlider.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUISplitter.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUITextField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIToggle.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIUnityStructField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIValueField.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIVector2Field.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIControls\GUIVector3Field.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\GUIWrapper.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Interfaces\IBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Interfaces\IChangableGUIControl.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Interfaces\IGUIControl.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Interfaces\IMustBeNotifiedOnHeightChange.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Interfaces\IPositionableBlock.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Other\BlockStack.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Other\GUIControlEntry.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Other\GUIOption.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\GUIWrapper\Other\Rectangle.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\Other\Helpers.cs" />
+    <Compile Include="Assets\Vexe\Editor\EditorGUIFramework\Wrappers\Other\LayoutOption.cs" />
+    <Compile Include="Assets\Vexe\Editor\SelectionMemorizer.cs" />
+    <Compile Include="Assets\Vexe\ShowEmAll\Editor\DrawMates\BaseDrawer.cs" />
+    <Compile Include="Assets\Vexe\ShowEmAll\Editor\DrawMates\EnumMaskDrawer.cs" />
+    <Compile Include="Assets\Vexe\ShowEmAll\Editor\EnumMaskAttributeDrawer.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Editor\Delegate Editors\AdvancedEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Editor\Delegate Editors\BaseEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Editor\Delegate Editors\MiniEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Editor\Delegate Editors\ReadonlyEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Core\Editor\Property Drawers\ShowDelegateAttributeDrawer.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\ComponentAdderEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\ComponentModifierEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\ComponentRemoverEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\ComponentStateChangerEditor.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\TestDrawer.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\TestEditor1.cs" />
+    <Compile Include="Assets\Vexe\uFAction\Examples\Editor\TestEditor2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildingShader.shader" />
@@ -220,6 +329,11 @@
     <None Include="Assets\Shader\Unitychan_chara_hair.shader" />
     <None Include="Assets\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\StepShader.shader" />
+    <None Include="Assets\Vexe\DLLs\Editor\EditorExtensions\EditorExtensions.XML" />
+    <None Include="Assets\Vexe\DLLs\Editor\EditorHelpers\EditorHelpers.XML" />
+    <None Include="Assets\Vexe\DLLs\Fasterflect\Fasterflect.XML" />
+    <None Include="Assets\Vexe\DLLs\Runtime\RuntimeExtensions\RuntimeExtensions.XML" />
+    <None Include="Assets\Vexe\DLLs\Runtime\RuntimeHelpers\RuntimeHelpers.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>
