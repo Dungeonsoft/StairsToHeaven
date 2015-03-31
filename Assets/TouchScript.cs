@@ -21,7 +21,7 @@ public class TouchScript : MonoBehaviour
     void touchClick()
     {
         // 터치 입력이 들어올 경우
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0))
         {
             // 오브젝트 정보를 담을 변수 생성
             RaycastHit hit;
