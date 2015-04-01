@@ -6,6 +6,7 @@ public class FeverFxPlaneScript : MonoBehaviour {
 
     float matOffetY;
     bool toOpacity;
+    public float lightSpeed = 1;
 	// Use this for initialization
 	void Awake () {
         mat.SetColor("_TintColor", new Color(1, 1, 1, 0));
@@ -14,7 +15,7 @@ public class FeverFxPlaneScript : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        mat.mainTextureOffset = new Vector2(0, matOffetY);
+        mat.mainTextureOffset = new Vector2(0, matOffetY * lightSpeed);
 
         if (matOffetY < 1 && toOpacity == false)
         {

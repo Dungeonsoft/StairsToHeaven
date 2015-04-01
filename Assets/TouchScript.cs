@@ -21,19 +21,25 @@ public class TouchScript : MonoBehaviour
     void touchClick()
     {
         // 터치 입력이 들어올 경우
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            // 오브젝트 정보를 담을 변수 생성
-            RaycastHit hit;
-            // 터치 좌표를 담는 변수
-            Ray touchray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // 터치한 곳에 ray를 보냄
-            Physics.Raycast(touchray, out hit);
-            // ray가 오브젝트에 부딪힐 경우
-            if (hit.collider != null && hit.transform.gameObject.GetComponent<UiButtonOnClick>() != null)
+            for (int i = 0; i < 5; i++)
             {
-                hit.collider.gameObject.GetComponent<UiButtonOnClick>().ClickEvent();
-                Debug.Log(hit.collider.gameObject.name);
+                if (Input.GetTouch(i).phase == TouchPhase.Began)
+                {
+                    // 오브젝트 정보를 담을 변수 생성
+                    RaycastHit hit;
+                    // 터치 좌표를 담는 변수
+                    Ray touchray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    // 터치한 곳에 ray를 보냄
+                    Physics.Raycast(touchray, out hit);
+                    // ray가 오브젝트에 부딪힐 경우
+                    if (hit.collider != null && hit.transform.gameObject.GetComponent<UiButtonOnClick>() != null)
+                    {
+                        hit.collider.gameObject.GetComponent<UiButtonOnClick>().ClickEvent();
+                        Debug.Log(hit.collider.gameObject.name);
+                    }
+                }
             }
         }
     }

@@ -114,8 +114,11 @@ public class GameManager : MonoBehaviour
     public float camPlayerYposMinInterval = 7f;
     public float playerLotY = 45;
 
+    public Material skyColor;
+
     void Awake()
     {
+        feverFxPlane.gameObject.SetActive(false);
         Application.targetFrameRate = 60;
         feverTimeOri = feverTime;
         int TempI = 0;
@@ -297,6 +300,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
         feverFxPlane.GetComponent<FeverFxPlaneScript>().Activate();
         feverFxPlane.GetComponent<FeverFxPlaneScript>().enabled = false;
+        feverFxPlane.gameObject.SetActive(false);
+
     }
 
     void Update()
@@ -337,7 +342,7 @@ public class GameManager : MonoBehaviour
             if (jumpCount > 0 && isFever == false && feverGage.value >= 1)
             {
                 isFever = true;
-                jumpSpeed = 1;
+                //jumpSpeed = 1;
                 moveBtn[0].SetActive(false);
                 moveBtn[1].SetActive(false);
                 moveBtn[2].SetActive(true);
@@ -349,6 +354,7 @@ public class GameManager : MonoBehaviour
                 bgSoundManager.clip = feverSound;
                 bgSoundManager.Play();
 
+                feverFxPlane.gameObject.SetActive(true);
                 feverFxPlane.GetComponent<FeverFxPlaneScript>().enabled = true;
                 StartCoroutine(StopFeverFx());
             }
@@ -420,7 +426,7 @@ public class GameManager : MonoBehaviour
 
             case status.jumpLeft:
                 frameCount++;
-                jumpLerpVal += Time.deltaTime * jumpSpeed;
+                jumpLerpVal += Time.deltaTime * (jumpSpeed + feverGage.value * 10f);
                 Debug.Log("Jump L Val :: " + jumpLerpVal + " :: " + jumpSpeed + " :: isFever ::" + isFever);
                 player.transform.localRotation = Quaternion.Euler(0, playerLotY, 0);
 
@@ -443,7 +449,7 @@ public class GameManager : MonoBehaviour
 
             case status.jumpRight:
                 frameCount++;
-                jumpLerpVal += Time.deltaTime * jumpSpeed;
+                jumpLerpVal += Time.deltaTime * (jumpSpeed + feverGage.value * 10f);
                 Debug.Log("Jump L Val :: " + jumpLerpVal + " :: " + jumpSpeed + " :: isFever ::" + isFever);
                 player.transform.localRotation = Quaternion.Euler(0, -playerLotY, 0);
 
@@ -465,8 +471,14 @@ public class GameManager : MonoBehaviour
         }
         #endregion //플레이어 상태에 따른 변화-실질적으로 점프 체크를 위해 필요//
 
+        if (skycolorOffsetY < 1)
+        {
+            skycolorOffsetY = 0.002f * camPosT.position.y;
+        }
+        skyColor.mainTextureOffset = new Vector2(0, skycolorOffsetY);
     }
-
+    float skycolorOffsetY;
+    
     IEnumerator ShowFeverLabel()
     {
         StartCoroutine(OffFeverLabel());
