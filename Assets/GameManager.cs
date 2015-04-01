@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     public UILabel stepView;
     public bool baseTimeLife;
     public float jumpSpeed = 20;
-    float tempJumpSpeed;
     public static status pStatus;
   
     Vector3[] scaleV;
@@ -46,6 +45,7 @@ public class GameManager : MonoBehaviour
     public static int jumpCount;
     int addVal;
     int frameCount;
+    float jumpLerpVal;
 
     bool isDaed;
     bool isPlayerDead;
@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     float camPosX;
     float camPosY;
     float playerPosY;
-    float oriJumpSpeed;
     float collapseInter;
     float StepMakePosX;
     float StepMakePosY;
@@ -124,7 +123,6 @@ public class GameManager : MonoBehaviour
 
         //oriCamPos = Camera.main.transform.localPosition;
         ReStartWindow.SetActive(false);
-        oriJumpSpeed = jumpSpeed;
 
         //계단 프리팹 로드//
         //stepPrefab = Resources.Load("StepBox00") as GameObject;
@@ -226,6 +224,7 @@ public class GameManager : MonoBehaviour
         #region//기본값 세팅//
         isPlayerDrop = false;
         frameCount = 0;
+        jumpLerpVal = 0;
         jumpCount = 0;
         isDaed = false;
         isPlayerDead = false;
@@ -255,8 +254,7 @@ public class GameManager : MonoBehaviour
         //goldCountLabel.text = "0";
         #endregion//기본값 세팅//
 
-        jumpSpeed = oriJumpSpeed / 100;
-        collapseInter = jumpSpeed / 50;
+        collapseInter = jumpSpeed / 500;
 
         //계단 인스턴스 화면 배치//
         StepMaker();
@@ -339,7 +337,6 @@ public class GameManager : MonoBehaviour
             if (jumpCount > 0 && isFever == false && feverGage.value >= 1)
             {
                 isFever = true;
-                tempJumpSpeed = jumpSpeed;
                 jumpSpeed = 1;
                 moveBtn[0].SetActive(false);
                 moveBtn[1].SetActive(false);
@@ -369,7 +366,6 @@ public class GameManager : MonoBehaviour
                 moveBtn[1].SetActive(true);
                 moveBtn[2].SetActive(false);
 
-                jumpSpeed = tempJumpSpeed;
                 bgSoundManager.clip = normalSound;
                 bgSoundManager.Play();
             }
@@ -424,6 +420,8 @@ public class GameManager : MonoBehaviour
 
             case status.jumpLeft:
                 frameCount++;
+                jumpLerpVal += Time.deltaTime * jumpSpeed;
+                Debug.Log("Jump L Val :: " + jumpLerpVal + " :: " + jumpSpeed + " :: isFever ::" + isFever);
                 player.transform.localRotation = Quaternion.Euler(0, playerLotY, 0);
 
                 //피버일때는 바로 다음 위치로 이동하게 한다.//
@@ -438,13 +436,15 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     //Debug.Log("점프 중 :: " + jumpSpeed * frameCount);
-                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
+                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpLerpVal);
                     IsJumpComplete();
                 }
                 break;
 
             case status.jumpRight:
                 frameCount++;
+                jumpLerpVal += Time.deltaTime * jumpSpeed;
+                Debug.Log("Jump L Val :: " + jumpLerpVal + " :: " + jumpSpeed + " :: isFever ::" + isFever);
                 player.transform.localRotation = Quaternion.Euler(0, -playerLotY, 0);
 
                 if (isFever == true)
@@ -458,7 +458,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     //Debug.Log("점프 중 :: " + jumpSpeed * frameCount);
-                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpSpeed * frameCount);
+                    player.transform.localPosition = Vector3.Lerp(nowPos, newPos, jumpLerpVal);
                     IsJumpComplete();
                 }
                 break;
@@ -551,6 +551,7 @@ public class GameManager : MonoBehaviour
             player.transform.localPosition = newPos;
             pStatus = status.idle;
             frameCount = 0;
+            jumpLerpVal = 0;
             nextStepT = stairs.FindChild("Step" + jumpCount.ToString("D5")).transform;
             nextStepT.localScale = Vector3.one;
             
